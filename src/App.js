@@ -1,26 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
+import Form from './items/Form';
+import List from './items/List';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.addTodo = this.addTodo.bind(this);
+    this.deleteTodo = this.deleteTodo.bind(this);
+    this.state = {
+      todos: [],
+    }
+  }
+
+  addTodo(todo) {
+    if (!todo) return;
+    this.setState({todos: this.state.todos.concat(todo)})
+  }
+
+  deleteTodo(index) {
+    const list = this.state.todos.concat();
+    list.splice(index, 1);
+    this.setState({todos: list})
+  }
+
+  render() {
+    return (
+      <div className="App">
+        <Form
+          addTodo={this.addTodo}
+        />
+        <List
+          todos={this.state.todos}
+          deleteTodo={this.deleteTodo}
+        />
+      </div>
+    );
+  }
 }
-
-export default App;
